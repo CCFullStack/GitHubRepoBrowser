@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<input type="text" id="username" placeholder="GitHub Username"/>
+<input type="button" id="github" value="List Repos"/>
+
+<ul id="repo-list">
+
+</ul>
+
+@section scripts {
+    <script>
+        $('#github').on('click', function (e) {
+            var repoURL = 'https://api.github.com/users/' + $('#username').val() + '/repos';
+            $.getJSON(repoURL, function (data) {
+                console.log(data);
+                var ul = $('#repo-list');
+                ul.empty();
+                data.forEach(function (repo) {
+                    $('<li>').html(
+                        $('<a>').attr('href', repo.html_url).text(repo.name)
+                    ).appendTo(ul);
+                });
+            });
+        });
+    </script>
+}
